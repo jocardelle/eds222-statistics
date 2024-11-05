@@ -1,0 +1,40 @@
+---
+title: "lecture week 4"
+author: "Josephine Cardelle"
+date: "2024-10-22"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+library(palmerpenguins)
+library(tidyverse)
+view(penguins)
+summary(lm(bill_length_mm ~ body_mass_g + species, penguins))
+
+
+ggplot(penguins, aes(x = body_mass_g, y = bill_length_mm, colour = species)) +
+  geom_point()
+```
+
+# Use palmer penguins to fit a model that has an interaction between a continuous and categorical variable
+```{r}
+summary(lm(body_mass_g ~ flipper_length_mm + sex + flipper_length_mm : sex, penguins))
+
+ggplot(penguins, aes(flipper_length_mm, body_mass_g, color = sex)) +
+  geom_point() +
+  geom_abline(intercept = -5443.9607, slope = 47.1527, color = "red") +# line for it female
+  geom_abline(intercept = -5443.9607 + 4.068015,
+              slope = 47.1527 + -0.2942,
+              color = "blue") #line for male
+
+```
+
+
+# Use palmer penguins to fit a model that has an interaction between a 2 continuous variables
+
+```{r}
+summary(lm(body_mass_g ~ flipper_length_mm + bill_length_mm + flipper_length_mm : bill_length_mm, penguins))
+```
+
