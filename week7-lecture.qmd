@@ -1,0 +1,47 @@
+---
+title: "eds222- eek 7 Lecture"
+format: html
+editor_options: 
+  chunk_output_type: console
+---
+```{r}
+library(tidyverse)
+```
+
+```{r}
+# Question 3.1
+water_data <- tibble(
+  pctHisp = seq(0, 0.9, by = 0.15),
+  healthViolation = c(1, 0, 0, 1, 1, 0, 1)
+)
+
+ggplot(water_data, aes(pctHisp, healthViolation)) +
+  geom_point()
+```
+
+```{r}
+# Question 3.2
+logit <- function(p) log(p / (1-p))
+inv_logit <- function(x) exp(x) / (1+exp(x))
+
+water_data %>% 
+  mutate(logit_p = 0 +1 * pctHisp,
+         p = inv_logit(logit_p)) %>% 
+  ggplot(aes(pctHisp, healthViolation)) +
+  geom_point() +
+  geom_line(aes(y = p), color = 'red')
+
+
+# Question 3.3
+# beta0 = -2., beta1 = 0.5
+water_data %>% 
+  mutate(logit_p1 = 0 + 1 * pctHisp,
+         p1 = inv_logit(logit_p1),
+         logit_p2 = -2 + 0.5 * pctHisp,
+         p2 = inv_logit(logit_p2)) %>% 
+  ggplot(aes(pctHisp, healthViolation)) +
+  geom_point() +
+  geom_line(aes(y = p1), color = 'red') +
+  geom_line(aes(y = p2), color = "blue")
+```
+
